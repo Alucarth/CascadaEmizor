@@ -1,0 +1,196 @@
+<?php $__env->startSection('title'); ?> Gestión de Clientes <?php $__env->stopSection(); ?>
+<?php $__env->startSection('head'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('encabezado'); ?> CLIENTES <?php $__env->stopSection(); ?>
+<?php $__env->startSection('encabezado_descripcion'); ?> Gestión de Clientes <?php $__env->stopSection(); ?>
+<?php $__env->startSection('nivel'); ?> <li><a href="#"><i class="ion-person-stalker"></i> Clientes</a></li> <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<div class="panel panel-default">
+  <div class="box-header with-border">
+    <h3 class="box-title"><a href="<?php echo url('clientes/create'); ?>" class="btn btn-success" role="button">Nuevo Cliente &nbsp<span class="glyphicon glyphicon-plus-sign"></span></a>  </h3>
+        <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row"><div class="col-sm-6">
+
+              </div>
+              <div class="col-sm-6"></div>
+              </div>
+              <div class="row">
+              <div class="col-sm-12">
+              <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead>
+                  <tr>
+                      <td><input placeholder="Código" id="numero" value="<?php echo $numero; ?>"></input></td>
+                      <td><input placeholder="NIT/CI" id="nit" value="<?php echo $nit; ?>"></input></td>
+                      <td><input placeholder="Razon Social" id="name" value="<?php echo $name; ?>"></input></td>
+                      <td><input placeholder="Contacto" id="contact" value="<?php echo $contact; ?>"></input></td>
+                      <td><input placeholder="Agrupación" id="group" value="<?php echo $group; ?>"></input></td>
+                      <td  style="display:none">Acción</td>
+                  </tr>
+                </thead>
+                <thead>
+                          <tr>
+                              <th>Código <button  style="text-decoration:none;color:#000;" id="dnumero"> <i class="glyphicon glyphicon-sort"></i></button></th>
+                              <th>NIT/CI <button  style="text-decoration:none;color:#000;" id="dnit"><i class="glyphicon glyphicon-sort"></i></button></th>
+                              <th>Razón Social <button style="text-decoration:none;color:#000;" id="dname"><i class="glyphicon glyphicon-sort"></i></button></th>
+                              <th>Contacto <button  style="text-decoration:none;color:#000;" id="dcontact"><i class="glyphicon glyphicon-sort"></i></button></th>
+                              <th>Agrupación <button  style="text-decoration:none;color:#000;" id="dgroup"><i class="glyphicon glyphicon-sort"></i></button></th>
+                              <th style = "display:block">&nbsp;&nbsp;&nbsp;&nbsp;Acción</th>
+                          </tr>
+                  </thead>
+                <tbody>
+
+                <?php foreach($clients as $client): ?>
+                    <tr role="row">
+                        <td><?php echo $client->id; ?></td>
+                        <td><a href="<?php echo URL::to('clientes/'.$client->id); ?>"><?php echo $client->nit; ?></a></td>
+                        <td><a href="<?php echo URL::to('clientes/'.$client->id); ?>"><?php echo $client->business_name; ?></a></td>
+                        <td><?php echo $client->contacto_first_name; ?> <?php echo $client->contacto_last_name; ?></td>
+                        <!-- <td><?php echo $client->group_id; ?></td> -->
+                        <td><?php echo Group::find($client->group_id)->name; ?></td>
+                        <td>
+                          <a class="btn btn-primary btn-xs" data-task="view" href="<?php echo URL::to("clientes/".$client->id); ?>"  style="text-decoration:none;color:white;"><i class="glyphicon glyphicon-eye-open"></i></a>
+                          <a class="btn btn-warning btn-xs" href="<?php echo URL::to("clientes/".$client->id.'/edit'); ?>" style="text-decoration:none;color:white;"><i class="glyphicon glyphicon-edit"></i></a>
+                          <!--no <a class="btn btn-danger btn-xs" onclick="$(this).closest('form').submit()" type="submit" style="text-decoration:none;color:white;"><i class="glyphicon glyphicon-remove"></i></a> -->
+                        </td>
+
+                    </tr>
+
+                <?php endforeach; ?>
+
+              <!-- </tbody>
+                <tfoot>
+                <tr><th rowspan="1" colspan="1">Rendering engine</th>
+                <th rowspan="1" colspan="1">Browser</th>
+                <th rowspan="1" colspan="1">Platform(s)</th>
+                <th rowspan="1" colspan="1">Engine version</th>
+                <th rowspan="1" colspan="1">CSS grade</th></tr>
+                </tfoot> -->
+              </table>
+
+              <?php if($numero != ""): ?>
+              <center><div class="pagination"> <?php echo $clients->appends(array('numero' => $numero))->links();; ?> </div></center>
+              <?php endif; ?>
+              <?php if($nit != ""): ?>
+              <center><div class="pagination"> <?php echo $clients->appends(array('nit' => $nit))->links();; ?> </div></center>
+              <?php endif; ?>
+              <?php if($name != ""): ?>
+              <center><div class="pagination"> <?php echo $clients->appends(array('name' => $name))->links();; ?> </div></center>
+              <?php endif; ?>
+              <?php if($group != ""): ?>
+              <center><div class="pagination"> <?php echo $clients->appends(array('group' => $group))->links();; ?> </div></center>
+              <?php endif; ?>
+              <?php if($contact != ""): ?>
+              <center><div class="pagination"> <?php echo $clients->appends(array('contact' => $contact))->links();; ?> </div></center>
+              <?php endif; ?>
+              <?php if($numero == "" && $name == "" && $nit == "" && $group == "" && $contact == ""): ?>
+              <center><div class="pagination"> <?php echo $clients->links();; ?> </div></center>
+              <?php endif; ?>
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+
+<script>
+
+$('#dnumero').click(function(){
+
+  numero = $("#numero").val();
+
+  var sw = '<?php echo Session::get('sw'); ?>';
+  console.log('variable sw '+sw);
+
+  // console.log(numero);
+  window.open('<?php echo URL::to('clientesDown'); ?>'+'?numero='+numero, "_self");
+});
+
+$('#dname').click(function(){
+  name = $("#name").val();
+  var sw = '<?php echo Session::get('sw'); ?>';
+  console.log('variable sw '+sw);
+  window.open('<?php echo URL::to('clientesDown'); ?>'+'?name='+name, "_self");
+});
+
+
+$('#dnit').click(function(){
+  nit = $("#nit").val();
+  var sw = '<?php echo Session::get('sw'); ?>';
+  console.log('variable sw '+sw);
+  window.open('<?php echo URL::to('clientesDown'); ?>'+'?nit=' +nit, "_self");
+});
+
+$('#dgroup').click(function(){
+  grupo = $("#group").val();
+  var sw = '<?php echo Session::get('sw'); ?>';
+  console.log('variable sw '+sw);
+  window.open('<?php echo URL::to('clientesDown'); ?>'+'?group=' +grupo, "_self");
+});
+
+$('#dcontact').click(function(){
+  contact = $("#contact").val();
+  var sw = '<?php echo Session::get('sw'); ?>';
+  console.log('variable sw '+sw);
+  window.open('<?php echo URL::to('clientesDown'); ?>'+'?contact=' +contact, "_self");
+});
+
+
+
+$('#name').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        // alert('You pressed a "enter" key in textbox');
+        console.log("Enter");
+        name = $("#name").val();
+        window.open('<?php echo URL::to('clientes'); ?>'+'?name=' +name, "_self");
+    }
+});
+
+$('#numero').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        console.log("Enter");
+        numero = $("#numero").val();
+        window.open('<?php echo URL::to('clientes'); ?>'+'?numero=' +numero, "_self");
+    }
+});
+
+$('#nit').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        console.log("Enter");
+        nit = $("#nit").val();
+        window.open('<?php echo URL::to('clientes'); ?>'+'?nit=' +nit, "_self");
+    }
+});
+
+$('#group').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        grupo = $("#group").val();
+        window.open('<?php echo URL::to('clientes'); ?>'+'?group=' +grupo, "_self");
+    }
+});
+
+$('#contact').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        contact = $("#contact").val();
+        window.open('<?php echo URL::to('clientes'); ?>'+'?contact=' +contact, "_self");
+    }
+});
+
+
+
+</script>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

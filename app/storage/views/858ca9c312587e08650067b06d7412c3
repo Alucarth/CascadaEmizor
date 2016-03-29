@@ -1,0 +1,79 @@
+
+<?php $__env->startSection('title'); ?>Nuevo Precio <?php $__env->stopSection(); ?>
+  <?php $__env->startSection('head'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('encabezado'); ?>  PRECIOS <?php $__env->stopSection(); ?>
+<?php $__env->startSection('encabezado_descripcion'); ?> Nuevo Precio  <?php $__env->stopSection(); ?> 
+<?php $__env->startSection('nivel'); ?> <li><a href="<?php echo URL::to('precios'); ?>"><i class="fa fa-cube"></i> Productos</a></li><li>Precio</li>
+        <li class="active"> Nuevo </li> <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php echo Former::framework('TwitterBootstrap3'); ?>
+
+
+<div class="box box-success">
+   <div class="box-header with-border">
+      <h3 class="box-title">Datos del precio</h3>
+      <div class="box-tools pull-right">
+        <!-- Buttons, labels, and many other things can be placed here! -->
+        <!-- Here is a label for example -->
+        
+      </div><!-- /.box-tools -->
+    </div><!-- /.box-header -->
+  
+  <div class="box-body">
+      <?php echo Former::open("precios")->method('post')->rules(array( 
+        'name' => 'required|match:/[a-zA-Z. ]+/',
+    ));; ?>
+
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-8">
+                     <p>
+                        <label>Nombre *</label><br>
+                        <input type="text" name="name" class="form-control" placeholder="Nombre del Precio" aria-describedby="sizing-addon2" title="Ingrese el nombre del precio" pattern=".{1,}" required>                    
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-8">                
+                <br>
+                <label>Asignación</label>
+                <hr>
+                <div class="col-md-4">
+                    <?php foreach ($productos as $producto){?>
+                    <label><?php echo $producto->product_key." - ".$producto->notes; ?>:</label>
+                     <input type="number" name="price-<?php echo $producto->id; ?>" class="form-control" step="any" aria-describedby="sizing-addon2" title="Ingrese el precio" required> 
+                    <?php }?>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3"></div>
+                <div class="col-md-2">
+                     <a href="<?php echo url('precios/'); ?>" class="btn btn-default btn-sm btn-block">Cancelar&nbsp;<span class="glyphicon glyphicon-remove">  </span></a>
+                </div>
+            <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success dropdown-toggle btn-sm btn-block"> Guardar&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span></button>
+                </div>
+        </div>
+        
+
+
+       
+
+        <?php echo Former::close(); ?>
+
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+    
+  </div><!-- box-footer -->
+</div><!-- /.box -->
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
